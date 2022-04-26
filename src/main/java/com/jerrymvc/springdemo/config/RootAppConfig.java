@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -36,8 +37,8 @@ public class RootAppConfig {
 	public HikariDataSource datasource() {
 		HikariConfig config = new HikariConfig();
 		config.setJdbcUrl("jdbc:sqlserver://localhost:1433;databaseName=SpringMvcDB");
-		config.setUsername("Hoxton");
-		config.setPassword("orz93098");
+		config.setUsername("sa");
+		config.setPassword("12345");
 		config.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 		config.setMaximumPoolSize(5);
 		config.setAutoCommit(false);
@@ -52,6 +53,14 @@ public class RootAppConfig {
 		properties.put("hibernate.format_sql", Boolean.TRUE);
 //		properties.put("hibernate.hbm2ddl.auto", "update");
 		return properties;
+	}
+	
+	
+	@Bean
+	public CommonsMultipartResolver multipartResolver() {
+		CommonsMultipartResolver resolver =  new CommonsMultipartResolver();
+		resolver.setDefaultEncoding("utf-8");
+		return resolver;
 	}
 
 }

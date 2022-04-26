@@ -40,6 +40,7 @@ public class MemberController {
 		
 		httpSession.setAttribute("loginMember", result);
 		
+		
 		return "loginOK";
 	}
 

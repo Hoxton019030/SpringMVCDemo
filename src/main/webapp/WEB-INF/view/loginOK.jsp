@@ -9,7 +9,8 @@
 <body>
 <h1>登入成功</h1>
 
-<h3>使用者為:${sessionScope.loginMember.memberName}</h3>
+<h3>使用者為:  ${sessionScope.loginMember.memberName}</h3>
+
 
 </body>
 </html>

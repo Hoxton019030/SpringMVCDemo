@@ -18,53 +18,63 @@ import com.jerrymvc.springdemo.service.EmployeeService;
 @Controller
 @RequestMapping("employee")
 public class EmployeeController {
-
+	
 	@Autowired
 	private EmployeeService empService;
-
+	
 	@GetMapping("/add")
 	public String addEmployeePage(Model model) {
-
+		
 		model.addAttribute("employeeBean", new Employee());
-
+		
 		return "employee/addPage";
 	}
-
+	
 	@PostMapping("/add")
 	public String postEmployee(@ModelAttribute("employeeBean") Employee postEmp) {
 		empService.addEmployee(postEmp);
-
+		
 		return "employee/addFinishPage";
 	}
-
-	@GetMapping("/deleteEmp")
-	public String deleteEmployee(@RequestParam("id") Integer id) {
-		empService.deleteEmployee(id);
-		return "redirect:list";
-	}
-
-	@GetMapping("/editemployee")
-	public String editEmployeePage(@RequestParam("id") Integer id, Model model) {
-		// editemployee?id=x
-		Employee tempEmp = empService.getEmployeeById(id);
-		model.addAttribute("employeeBean", tempEmp);
-		return "employee/editpage";
-
-	}
-
-	@GetMapping("list")
+	
+	@GetMapping("/list")
 	public String listEmployee(Model model) {
 		List<Employee> allEmployee = empService.getAllEmployee();
-
+		
 		model.addAttribute("employeeList", allEmployee);
 		return "employee/listEmployee";
 	}
+	
+	@GetMapping("/deleteEmp")
+	public String deleteEmployee(@RequestParam("id") Integer id) {
+		empService.deleteEmployee(id);
+		
+		// 去找 Controller 對應的 url -> servlet 中的 sendRedirect
+		return "redirect:list";
+	}
+	
+	
 
-	@GetMapping(path="/listJson",produces = "application/json/")
+	@GetMapping("/editemployee")
+	public String editEmployeePage(@RequestParam("id") Integer id, Model model) {
+                                   //		/editemployee?id=x
+		Employee tempEmp = empService.getEmployeeById(id);
+		
+		model.addAttribute("employeeBean", tempEmp);
+		
+		return "employee/editpage";
+	}
+	
+	@GetMapping(path="/listjson",produces = "application/json")
 	@ResponseBody
 	public List<Employee> listEmployeeJson() {
 		List<Employee> allEmployee = empService.getAllEmployee();
+		
+		
 		return allEmployee;
 	}
+	
+	
+	
 
 }
